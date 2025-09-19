@@ -8,7 +8,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: taskmanager-deployment
-  namespace: "02220160"          # Replace with your number
+  namespace: "02220160" # Replace with your number
   labels:
     app: taskmanager
     component: frontend
@@ -22,12 +22,12 @@ spec:
   template:
     metadata:
       labels:
-        app: taskmanager       # Must match selector
+        app: taskmanager # Must match selector
         version: v2
     spec:
       containers:
         - name: taskmanager
-          image: YOUR_DOCKERHUB_USERNAME/task-manager:latest
+          image: namgay527/task-manager:a6563fa1403f80bd13069b7ed670753f84f1e76a
           ports:
             - containerPort: 8000
               name: http
@@ -63,17 +63,20 @@ apiVersion: v1
 kind: Service
 metadata:
   name: taskmanager-service
-  namespace: "02220160"           # Replace with your number
+  namespace: "02220160" # Replace with your number
   labels:
     app: taskmanager
     student: "02220160"
 spec:
   selector:
-    app: taskmanager              # Must match pod labels
+    app: taskmanager # Must match pod labels
   ports:
     - name: http
-      port: 80                    # External port of Service
-      targetPort: http             # Named port in container
+      port: 80 # External port of Service
+      targetPort: http # Named port in container
       protocol: TCP
-  type: ClusterIP                  # Change to LoadBalancer for external access
-
+  type: ClusterIP # Change to LoadBalancer for external access
+  template:
+    spec:
+      containers:
+        - image: namgay527/task-manager:a6563fa1403f80bd13069b7ed670753f84f1e76a
